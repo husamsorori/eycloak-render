@@ -1,13 +1,12 @@
 FROM quay.io/keycloak/keycloak:26.0.6
 
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin
+# تعيين اسم المستخدم وكلمة المرور للمدير
+ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin
+ENV KC_BOOTSTRAP_ADMIN_PASSWORD=admin
 
-# Build the server
+# Build Keycloak server
 RUN /opt/keycloak/bin/kc.sh build
 
-# Expose port 8080
-EXPOSE 8080
-
-# Start Keycloak on 0.0.0.0
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-host=0.0.0.0", "--http-port=8080"]
+# بدء Keycloak مع الالتقاط التلقائي للمنفذ من Render
+# Render يحدد المتغير PORT تلقائيًا
+ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-host=0.0.0.0", "--http-port=${PORT}", "--hostname-strict=false"]
