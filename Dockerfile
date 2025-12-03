@@ -1,14 +1,20 @@
 FROM quay.io/keycloak/keycloak:26.0.6
 
-# تعيين بيانات المدير
+# متغيرات إلزامية
 ENV KC_ADMIN=admin
-ENV KC_ADMIN_PASSWORD=admin123
+ENV KC_ADMIN_PASSWORD=Admin@Secure123
+ENV KC_HOSTNAME=eycloak-render.onrender.com
+ENV KC_PROXY=edge
 
-# بناء Keycloak
-RUN /opt/keycloak/bin/kc.sh build --db=dev-file
+# إعدادات اختيارية لكن مهمة
+ENV KC_HOSTNAME_STRICT=false
+ENV KC_HOSTNAME_STRICT_HTTPS=false
+ENV KC_HTTP_ENABLED=true
 
-# المنفذ
+# Build مع تكوين مثالي
+RUN /opt/keycloak/bin/kc.sh build --db=h2-file
+
 EXPOSE 8080
 
-# أمر التشغيل
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-port=8080", "--hostname-strict=false"]
+# تشغيل في وضع الإنتاج
+CMD ["/bin/sh", "-c", "/opt/keycloak/bin/kc.sh start --optimized --http-port=${PORT:-8080}"]
