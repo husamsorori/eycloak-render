@@ -9,4 +9,4 @@ RUN /opt/keycloak/bin/kc.sh build
 
 # بدء Keycloak مع الالتقاط التلقائي للمنفذ من Render
 # Render يحدد المتغير PORT تلقائيًا
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev", "--http-host=0.0.0.0", "--http-port=${PORT}", "--hostname-strict=false"]
+ENTRYPOINT ["/bin/sh", "-c", "/opt/keycloak/bin/kc.sh start-dev --http-host=0.0.0.0 --http-port=${PORT} --hostname-strict=false"]
