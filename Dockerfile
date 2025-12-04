@@ -1,8 +1,9 @@
 FROM quay.io/keycloak/keycloak:26.0.6
 
 # تعيين اسم المستخدم وكلمة المرور للمدير (يمكن تركها كمتغيرات بيئة على Render)
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin@123
+ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin
+ENV KC_BOOTSTRAP_ADMIN_PASSWORD=admin@123
+
 
 # حل مشكلة عدم قراءة Render للمنفذ
 ENV PORT=8080
